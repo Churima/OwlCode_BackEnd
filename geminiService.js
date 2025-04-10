@@ -19,7 +19,7 @@ async function perguntarAoGemini(pergunta) {
 
     return resposta.data.candidates[0].content.parts[0].text;
   } catch (err) {
-    console.error('Erro ao comunicar com o Gemini:', err.response?.data || err.message);
+    console.error('Erro ao enviar pergunta para o Gemini:', err.response?.data || err.message);
     throw err;
   }
 }
