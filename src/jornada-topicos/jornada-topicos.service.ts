@@ -5,11 +5,11 @@ import { db } from '../firebase/firebase-admin';
 @Injectable()
 export class JornadaTopicosService {
   async adicionarTopico(idJornada: string, topico: any) {
-    const topicosRef = db
-      .collection('jornadas')
-      .doc(idJornada)
-      .collection('topicos');
+  const topicosRef = db.collection('jornada_topicos');
+  await topicosRef.doc(topico.id.toString()).set({
+    ...topico,
+    idJornada // relacionando o tópico com a jornada
+  });
+}
 
-    await topicosRef.doc(topico.id.toString()).set(topico);
-  }
 }
