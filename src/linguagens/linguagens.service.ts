@@ -5,19 +5,17 @@ import { db } from '../firebase/firebase-admin';
 export class LinguagensService {
   async getAllLinguagens() {
     const snapshot = await db.collection('linguagens').get();
+
     const linguagens = snapshot.docs.map(doc => {
       const data = doc.data();
       return {
         uid: doc.id,
-        linguagem: {
-          cor: data.cor,
-          nome: data.nome,
-          url: data.url,
-        },
-        progresso_percent: data.progresso_percent,
+        nome: data.nome,
+        cor: data.cor,
+        url: data.url,
       };
     });
 
-    return linguagens;
+    return { linguagens };
   }
 }
