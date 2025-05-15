@@ -18,16 +18,12 @@ export class JornadasService {
       throw new NotFoundException('Nenhuma jornada encontrada para este usuário');
     }
 
-    console.log('Total de jornadas encontradas:', snap.size);
-
     const linguagensTotais: JornadaLangEntry[] = [];
 
     for (const doc of snap.docs) {
       const data = doc.data();
-      console.log(`Jornada ID ${doc.id}:`, JSON.stringify(data, null, 2));
-
+      
       const linguagens = data.linguagens || [];
-      console.log(`Linguagens da jornada ${doc.id}:`, linguagens);
       linguagensTotais.push(...linguagens);
     }
 
