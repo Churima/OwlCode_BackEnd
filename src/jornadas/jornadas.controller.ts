@@ -11,6 +11,6 @@ export class JornadasController {
   async getJornadas(@Req() req) {
     const userId = req.user.uid;
     const jornadas = await this.jornadasService.getJornadasByUserId(userId);
-    return { jornadas };
+    return jornadas;
   }
 }

@@ -6,7 +6,7 @@ export class LinguagensService {
   async getAllLinguagens() {
     const snapshot = await db.collection('linguagens').get();
 
-    const linguagens = snapshot.docs.map(doc => {
+    return snapshot.docs.map(doc => {
       const data = doc.data();
       return {
         uid: doc.id,
@@ -15,7 +15,5 @@ export class LinguagensService {
         url: data.url,
       };
     });
-
-    return { linguagens };
   }
 }
