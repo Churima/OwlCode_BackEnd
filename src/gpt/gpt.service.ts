@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import OpenAI from 'openai';
 import { JornadaTopicosService } from '../jornada-topicos/jornada-topicos.service';
+import { JornadasService } from '../jornadas/jornadas.service'; 
 
 @Injectable()
 export class GptService {
@@ -10,8 +11,10 @@ export class GptService {
     apiKey: process.env.GPT_API_KEY,
   });
 
-  constructor(private readonly jornadaTopicosService: JornadaTopicosService) {}
-
+  constructor(private readonly jornadaTopicosService: JornadaTopicosService,
+              private readonly jornadasService: JornadasService,
+  ) {}
+  
   private limparResposta(raw: string): string {
     return raw
       .replace(/```json\s*/i, '')
@@ -71,9 +74,13 @@ export class GptService {
           this.logger.warn(`Módulo inválido ignorado: ${JSON.stringify(modulo)}`);
           continue;
         }
+        const novaJornadaId = await this.jornadasService.adicionarJornada({
+        titulo,
+        detalhes,
+      });
 
         for (const topico of topicos) {
-          await this.jornadaTopicosService.adicionarTopico(ID.toString(), {
+          await this.jornadaTopicosService.adicionarTopico(novaJornadaId.toString(), {
             id: topico.id,
             titulo: topico.titulo,
             detalhes: topico.detalhes,

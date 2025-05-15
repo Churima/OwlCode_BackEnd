@@ -5,5 +5,6 @@ import { JornadasService } from './jornadas.service';
 @Module({
   controllers: [JornadasController],
   providers: [JornadasService],
+  exports: [JornadasService]
 })
 export class JornadasModule {}

@@ -59,4 +59,25 @@ export class JornadasService {
 
     return resultado.filter(Boolean); // remove nulos
   }
+
+  async adicionarJornada(jornada: { titulo: string; detalhes: string }) {
+  const jornadasRef = this.db.collection('jornadas');
+  const snapshot = await jornadasRef.get();
+
+  let maxId = 0;
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    if (data.id > maxId) maxId = data.id;
+  });
+
+  const novoId = maxId + 1;
+
+  await jornadasRef.doc(novoId.toString()).set({
+    id: novoId,
+    titulo: jornada.titulo,
+    detalhes: jornada.detalhes,
+  });
+
+  return novoId;
+}
 }
