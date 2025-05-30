@@ -5,12 +5,14 @@ import { GptModule } from './gpt/gpt.module';
 import { LinguagensModule } from './linguagens/linguagens.module';
 import { ConfigModule } from '@nestjs/config';
 import { JornadasModule } from './jornadas/jornadas.module';
+import { ConteudoJornadaModule } from './conteudo-jornada/conteudo-jornada.module';
 
 @Module({
   imports: [
     GptModule, 
     LinguagensModule, 
     JornadasModule,
+    ConteudoJornadaModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
