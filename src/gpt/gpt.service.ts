@@ -1,103 +1,88 @@
 import { Injectable, Logger } from '@nestjs/common';
 import OpenAI from 'openai';
+import { ChatCompletionMessageParam } from 'openai/resources/chat';
+import { SYSTEM_PROMPT } from './SYSTEM_PROMPT';
+
 import { JornadaTopicosService } from '../jornada-topicos/jornada-topicos.service';
-import { JornadasService } from '../jornadas/jornadas.service'; 
+import { JornadasService } from '../jornadas/jornadas.service';
 
 @Injectable()
 export class GptService {
   private readonly logger = new Logger(GptService.name);
 
-  private openai = new OpenAI({
-    apiKey: process.env.GPT_API_KEY,
-  });
+  /** prompt-system enviado em TODAS as requisições */
+  private readonly baseMessages: ChatCompletionMessageParam[] = [
+    { role: 'system', content: SYSTEM_PROMPT },
+  ];
 
-  constructor(private readonly jornadaTopicosService: JornadaTopicosService,
-              private readonly jornadasService: JornadasService,
-  ) {}
-  
+  private openai: OpenAI;
+
+  constructor(
+    private readonly jornadaTopicosService: JornadaTopicosService,
+    private readonly jornadasService: JornadasService,
+  ) {
+    this.openai = new OpenAI({ apiKey: process.env.GPT_API_KEY });
+  }
+
+  /* util */
   private limparResposta(raw: string): string {
-    return raw
-      .replace(/```json\s*/i, '')
-      .replace(/```/g, '')
-      .trim();
+    return raw.replace(/```json\s*/i, '').replace(/```/g, '').trim();
   }
 
-  private validarEstrutura(respostaJson: any): any[] {
-    if (!respostaJson || typeof respostaJson !== 'object') {
-      throw new Error('Resposta JSON inválida');
+  private validarEstrutura(json: any): any[] {
+    if (!json || typeof json !== 'object' || !Array.isArray(json.resposta)) {
+      throw new Error('Estrutura JSON inesperada');
     }
-
-    if (!Array.isArray(respostaJson.resposta)) {
-      throw new Error('A chave "resposta" deve conter um array de módulos');
-    }
-
-    return respostaJson.resposta;
-  }
-
-  private async obterResposta(pergunta: string): Promise<any[]> {
-    try {
-      const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4-turbo',
-        messages: [{ role: 'user', content: pergunta }],
-        temperature: 0,
-        top_p: 1,
+    json.resposta.forEach((m: any) => {
+      if (!Array.isArray(m.topicos)) throw new Error('Módulo sem topicos');
+      m.topicos.forEach((t: any) => {
+        if (typeof t.titulo2 !== 'string' || !t.titulo2.trim()) {
+          throw new Error(`Tópico ${t.id} sem titulo2`);
+        }
       });
-
-      let rawResposta = completion.choices?.[0]?.message?.content;
-
-      if (!rawResposta) {
-        throw new Error('Resposta vazia do modelo');
-      }
-
-      const limpa = this.limparResposta(rawResposta);
-      console.log('Resposta limpa do GPT:', limpa);
-      const parsed = JSON.parse(limpa);
-      const modulos = this.validarEstrutura(parsed);
-
-      return modulos;
-    } catch (err) {
-      this.logger.error('Erro ao processar resposta do GPT:', err.message || err);
-      throw new Error('Erro ao interpretar resposta do GPT');
-    }
+    });
+    return json.resposta;
   }
 
+  /* chama OpenAI */
+  private async obterModulos(pergunta: string): Promise<any[]> {
+    const completion = await this.openai.chat.completions.create({
+      model: 'gpt-4-turbo',
+      messages: [
+        ...this.baseMessages,
+        { role: 'user', content: pergunta } as ChatCompletionMessageParam,
+      ],
+      temperature: 0,
+      top_p: 1,
+    });
+
+    const raw   = completion.choices?.[0]?.message?.content ?? '';
+    const limpa = this.limparResposta(raw);
+    this.logger.debug('JSON extraído →', limpa);
+    const parsed = JSON.parse(limpa);
+    return this.validarEstrutura(parsed);
+  }
+
+  
+  /* endpoint público */
   async perguntar(pergunta: string): Promise<{ status: string; topicosGravados: number }> {
-    try {
-      const modulos = await this.obterResposta(pergunta);
+    const modulos = await this.obterModulos(pergunta);
+    let total = 0;
 
-      let totalGravados = 0;
+    for (const modulo of modulos) {
+      const { titulo, detalhes, topicos } = modulo;
 
-      for (const modulo of modulos) {
-        const { ID, titulo, detalhes, topicos } = modulo;
+      const jornadaId = await this.jornadasService.adicionarJornada({ titulo, detalhes });
 
-        if (!ID || !Array.isArray(topicos)) {
-          this.logger.warn(`Módulo inválido ignorado: ${JSON.stringify(modulo)}`);
-          continue;
-        }
-        const novaJornadaId = await this.jornadasService.adicionarJornada({
-        titulo,
-        detalhes,
-      });
-
-        for (const topico of topicos) {
-          await this.jornadaTopicosService.adicionarTopico(novaJornadaId.toString(), {
-            id: topico.id,
-            titulo: topico.titulo,
-            detalhes: topico.detalhes,
-            finalizado: topico.finalizado || false,
-            anexos: topico.anexos || [],
-            exemplos: topico.exemplos || [],
-          });
-
-
-          totalGravados++;
-        }
+      for (const topico of topicos) {
+        await this.jornadaTopicosService.adicionarTopico(jornadaId.toString(), {
+          ...topico,
+          finalizado: topico.finalizado ?? false,
+        });
+        total++;
       }
-
-      return { status: 'ok', topicosGravados: totalGravados };
-    } catch (err) {
-      this.logger.error('Erro ao salvar tópicos:', err.message || err);
-      throw new Error('Erro ao salvar tópicos');
     }
+
+    return { status: 'ok', topicosGravados: total };
   }
 }

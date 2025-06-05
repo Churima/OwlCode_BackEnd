@@ -1,12 +1,16 @@
-// src/gpt/gpt.module.ts
 import { Module } from '@nestjs/common';
-import { GptService } from './gpt.service';
 import { GptController } from './gpt.controller';
-import { JornadaTopicosModule } from '../jornada-topicos/jornada-topicos.module'; // <-- ajuste o caminho se estiver diferente
+import { GptService } from './gpt.service';
+import { JornadaTopicosModule } from '../jornada-topicos/jornada-topicos.module';
 import { JornadasModule } from '../jornadas/jornadas.module';
+import { JornadaModulosModule } from '../jornada-modulos/jornada-modulos.module';  // novo
 
 @Module({
-  imports: [JornadaTopicosModule, JornadasModule], // <-- adicione isso aqui
+  imports: [
+    JornadaTopicosModule,
+    JornadasModule,
+    JornadaModulosModule,   // <-- importa para injeção
+  ],
   controllers: [GptController],
   providers: [GptService],
 })

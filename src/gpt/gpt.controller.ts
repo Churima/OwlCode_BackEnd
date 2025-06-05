@@ -6,8 +6,7 @@ export class GptController {
   constructor(private readonly gptService: GptService) {}
 
   @Post('perguntar')
-  async perguntar(@Body('pergunta') pergunta: string) {
-    const resposta = await this.gptService.perguntar(pergunta);
-    return { resposta };
+  perguntar(@Body('pergunta') pergunta: string) {
+    return this.gptService.perguntar(pergunta);
   }
 }
