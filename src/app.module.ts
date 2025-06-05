@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { GptModule } from './gpt/gpt.module';
 import { LinguagensModule } from './linguagens/linguagens.module';
 import { JornadasModule } from './jornadas/jornadas.module';
+import { ConteudoJornadaModule } from './conteudo-jornada/conteudo-jornada.module';
 import { ConfigModule } from '@nestjs/config';
 import { JornadaModulosModule } from './jornada-modulos/jornada-modulos.module';
 import { JornadaTopicosModule } from './jornada-topicos/jornada-topicos.module';
@@ -13,6 +14,7 @@ import { JornadaTopicosModule } from './jornada-topicos/jornada-topicos.module';
     GptModule,
     LinguagensModule,
     JornadasModule,
+    ConteudoJornadaModule,
     JornadaModulosModule,  // <-- aqui
     JornadaTopicosModule,  // <-- aqui
     ConfigModule.forRoot({
