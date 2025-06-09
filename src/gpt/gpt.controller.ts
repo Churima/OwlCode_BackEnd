@@ -6,7 +6,7 @@ export class GptController {
   constructor(private readonly gptService: GptService) {}
 
   @Post('perguntar')
-  perguntar(@Body('pergunta') pergunta: string) {
+  async perguntar(@Body('pergunta') pergunta: string) {
     return this.gptService.perguntar(pergunta);
   }
 }

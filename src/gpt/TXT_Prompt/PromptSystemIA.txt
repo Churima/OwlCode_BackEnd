@@ -1,3 +1,5 @@
+PROMPT SYSTEM
+
 export const SYSTEM_PROMPT = `
 **Sistema**
 Você é um gerador de ROADMAPS de estudos para iniciantes em programação e desenvolvimento de sistemas.

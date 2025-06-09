@@ -1,0 +1,298 @@
+Exemplo de retorno
+
+Resposta da IA limpa:
+[Nest] 8356  - 08/06/2025, 22:58:43   DEBUG [GptService] {
+  "linguagem": "javascript",
+  "resposta": [
+    {
+      "modulo_id": 1,
+      "modulo_titulo": "Fundamentos do JavaScript",
+      "modulo_detalhes": "Revisão dos conceitos básicos e introdução a funções e escopos.",
+      "topicos": [
+        {
+          "topico_id": 1,
+          "finalizado": false,
+          "topico_titulo": "Revisão de Variáveis e Tipos",
+          "topico_subtitulo": "Diferenças entre var, let e const",
+          "topico_detalhes": "Entenda como e quando usar cada tipo de declaração de variáveis em JavaScript.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/variablesInJavascript" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Declaração de variáveis",
+              "codigo": "let nome = 'João';\nconst PI = 3.14;\nvar idade = 20;"
+            }
+          ]
+        },
+        {
+          "topico_id": 2,
+          "finalizado": false,
+          "topico_titulo": "Funções e Escopos",
+          "topico_subtitulo": "Criando funções eficientes",
+          "topico_detalhes": "Aprenda a estruturar funções de forma clara e eficiente, entendendo o escopo local e global.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/functionsAndScopesJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Função simples",
+              "codigo": "function soma(a, b) {\n  return a + b;\n}"
+            }
+          ]
+        },
+        {
+          "topico_id": 3,
+          "finalizado": false,
+          "topico_titulo": "Condicionais e Loops",
+          "topico_subtitulo": "Controle de fluxo no JavaScript",
+          "topico_detalhes": "Como utilizar estruturas de controle como if, else, for e while para manipular o fluxo de execução.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/conditionalAndLoopsJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Loop for",
+              "codigo": "for (let i = 0; i < 10; i++) {\n  console.log(i);\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modulo_id": 2,
+      "modulo_titulo": "Manipulação do DOM",
+      "modulo_detalhes": "Aprenda a interagir com o HTML através do JavaScript para criar sites dinâmicos.",
+      "topicos": [
+        {
+          "topico_id": 4,
+          "finalizado": false,
+          "topico_titulo": "Selecionando Elementos",
+          "topico_subtitulo": "Manipule elementos HTML com JavaScript",
+          "topico_detalhes": "Como usar métodos como getElementById, querySelector para manipular elementos HTML.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/selectingElementsDomJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Selecionar um elemento",
+              "codigo": "const elemento = document.getElementById('meuId');"
+            }
+          ]
+        },
+        {
+          "topico_id": 5,
+          "finalizado": false,
+          "topico_titulo": "Eventos",
+          "topico_subtitulo": "Trabalhando com eventos no JavaScript",
+          "topico_detalhes": "Entenda como adicionar e gerenciar eventos em elementos HTML para interações dinâmicas.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/eventsInJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Adicionar um evento de clique",
+              "codigo": "document.getElementById('meuBotao').addEventListener('click', function() {\n  alert('Clicado!');\n});"
+            }
+          ]
+        },
+        {
+          "topico_id": 6,
+          "finalizado": false,
+          "topico_titulo": "Alterando Estilos",
+          "topico_subtitulo": "Modifique estilos CSS com JavaScript",
+          "topico_detalhes": "Como alterar estilos de elementos HTML dinamicamente usando JavaScript.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/changingStylesWithJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Mudar cor de fundo",
+              "codigo": "document.getElementById('meuElemento').style.backgroundColor = 'blue';"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modulo_id": 3,
+      "modulo_titulo": "Projetos Práticos com JavaScript",
+      "modulo_detalhes": "Desenvolva pequenos projetos para consolidar o aprendizado e ganhar confiança.",
+      "topicos": [
+        {
+          "topico_id": 7,
+          "finalizado": false,
+          "topico_titulo": "Criando uma Lista de Tarefas",
+          "topico_subtitulo": "Projeto prático para gerenciar tarefas",
+          "topico_detalhes": "Desenvolva uma aplicação simples para adicionar, remover e marcar tarefas como concluídas.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/todoListProjectJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Estrutura básica de uma lista de tarefas",
+              "codigo": "const adicionarTarefa = (tarefa) => {\n  const lista = document.getElementById('listaDeTarefas');\n  const item = document.createElement('li');\n  item.textContent = tarefa;\n  lista.appendChild(item);\n};"    
+            }
+          ]
+        },
+        {
+          "topico_id": 8,
+          "finalizado": false,
+          "topico_titulo": "Relógio Digital",
+          "topico_subtitulo": "Projeto prático para exibir a hora",
+          "topico_detalhes": "Crie um relógio digital que atualiza em tempo real no seu navegador.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/digitalClockProjectJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Função para atualizar o relógio",
+              "codigo": "function atualizarRelogio() {\n  const agora = new Date();\n  document.getElementById('relogio').textContent = agora.toLocaleTimeString();\n  setTimeout(atualizarRelogio, 1000);\n}"
+            }
+          ]
+        },
+        {
+          "topico_id": 9,
+          "finalizado": false,
+          "topico_titulo": "Calculadora Simples",
+          "topico_subtitulo": "Projeto prático para realizar operações matemáticas",
+          "topico_detalhes": "Implemente uma calculadora simples que pode realizar operações básicas como soma, subtração, multiplicação e divisão.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/simpleCalculatorJs" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Funções de operações básicas",
+              "codigo": "function soma(a, b) {\n  return a + b;\n}\nfunction subtracao(a, b) {\n  return a - b;\n}\nfunction multiplicacao(a, b) {\n  return a * b;\n}\nfunction divisao(a, b) {\n  return a / b;\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modulo_id": 4,
+      "modulo_titulo": "Introdução a Frameworks JavaScript",
+      "modulo_detalhes": "Explore frameworks populares para expandir suas habilidades em desenvolvimento web.",
+      "topicos": [
+        {
+          "topico_id": 10,
+          "finalizado": false,
+          "topico_titulo": "Introdução ao React",
+          "topico_subtitulo": "Primeiros passos com React",
+          "topico_detalhes": "Aprenda os conceitos básicos do React, como componentes, estado e props.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/introToReactJs" },
+            { "tipo": "documentacao", "url": "https://reactjs.org/docs/getting-started.html" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Componente simples em React",
+              "codigo": "function BemVindo(props) {\n  return <h1>Olá, {props.nome}!</h1>;\n}"
+            }
+          ]
+        },
+        {
+          "topico_id": 11,
+          "finalizado": false,
+          "topico_titulo": "Vue.js Básico",
+          "topico_subtitulo": "Introdução ao Vue.js",
+          "topico_detalhes": "Entenda como trabalhar com o Vue.js para construir interfaces de usuário dinâmicas.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/introToVueJs" },
+            { "tipo": "documentacao", "url": "https://vuejs.org/v2/guide/" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Instância Vue simples",
+              "codigo": "new Vue({\n  el: '#app',\n  data: {\n    mensagem: 'Olá Vue!'\n  }\n});"
+            }
+          ]
+        },
+        {
+          "topico_id": 12,
+          "finalizado": false,
+          "topico_titulo": "Angular Fundamentos",
+          "topico_subtitulo": "Começando com Angular",
+          "topico_detalhes": "Aprenda sobre os blocos de construção do Angular, incluindo módulos, componentes e serviços.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/introToAngularJs" },
+            { "tipo": "documentacao", "url": "https://angular.io/start" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Componente Angular básico",
+              "codigo": "@Component({\n  selector: 'meu-app',\n  template: '<h1>Olá {{nome}}</h1>'\n})\nexport class AppComponent {\n  nome = 'Mundo';\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modulo_id": 5,
+      "modulo_titulo": "Segurança e Boas Práticas",
+      "modulo_detalhes": "Aprenda sobre segurança, desempenho e boas práticas no desenvolvimento JavaScript.",
+      "topicos": [
+        {
+          "topico_id": 13,
+          "finalizado": false,
+          "topico_titulo": "Boas Práticas em JavaScript",
+          "topico_subtitulo": "Escrevendo código limpo e eficiente",
+          "topico_detalhes": "Dicas para manter seu código JavaScript limpo, legível e eficiente.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/javascriptBestPractices" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction#best_practices" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Uso correto de let e const",
+              "codigo": "const MAX_USERS = 20;\nlet currentUsers = 5;"
+            }
+          ]
+        },
+        {
+          "topico_id": 14,
+          "finalizado": false,
+          "topico_titulo": "Segurança no JavaScript",
+          "topico_subtitulo": "Evitando vulnerabilidades comuns",
+          "topico_detalhes": "Conheça as principais vulnerabilidades em aplicações JavaScript e como evitá-las.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/javascriptSecurity" },
+            { "tipo": "documentacao", "url": "https://owasp.org/www-community/attacks/xss/" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Prevenção de XSS",
+              "codigo": "const userInput = '<script>maliciousCode()</script>';\nconst safeInput = userInput.replace(/<script.*?>.*?<\\/script>/gi, '');\ndocument.getElementById('output').textContent = safeInput;"
+            }
+          ]
+        },
+        {
+          "topico_id": 15,
+          "finalizado": false,
+          "topico_titulo": "Desempenho em JavaScript",
+          "topico_subtitulo": "Otimizando seu código para melhor desempenho",
+          "topico_detalhes": "Técnicas para melhorar a velocidade e eficiência do seu código JavaScript.",
+          "anexos": [
+            { "tipo": "video", "url": "https://youtube.com/javascriptPerformance" },
+            { "tipo": "documentacao", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce" }
+          ],
+          "exemplos": [
+            {
+              "titulo_exemplo": "Uso eficiente de arrays",
+              "codigo": "const numeros = [1, 2, 3, 4, 5];\nconst soma = numeros.reduce((total, atual) => total + atual, 0);\nconsole.log(soma);"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
