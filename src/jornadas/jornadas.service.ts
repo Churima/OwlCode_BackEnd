@@ -1,58 +1,47 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import admin from '../firebase/firebase-admin';
 
-interface JornadaLangEntry {
-  uid: string;
-  progresso_percent: number;
-}
-
 @Injectable()
 export class JornadasService {
   private db = admin.firestore();
 
   async getJornadasByUserId(userUid: string) {
-    const q = this.db.collection('jornadas').where('user_id', '==', userUid);
+    const q = this.db.collection('jornada_bruta').where('user_id', '==', userUid);
     const snap = await q.get();
 
     if (snap.empty) {
       throw new NotFoundException('Nenhuma jornada encontrada para este usuário');
     }
 
-    const linguagensTotais: JornadaLangEntry[] = [];
+    const linguagensTotais: { sigla: string; progresso_percent: number }[] = [];
 
     for (const doc of snap.docs) {
       const data = doc.data();
-      
-      const linguagens = data.linguagens || [];
-      linguagensTotais.push(...linguagens);
+      const sigla = data.linguagem; // agora usamos a "sigla", não o UID do doc
+      linguagensTotais.push({
+        sigla,
+        progresso_percent: 0, // fixo por enquanto
+      });
     }
 
-    if (linguagensTotais.length === 0) {
-      return [];
-    }
+    // Buscar documentos da coleção 'linguagens' por sigla
+    const langDocsPromises = linguagensTotais.map(async (entry) => {
+      const q = await this.db
+        .collection('linguagens')
+        .where('sigla', '==', entry.sigla)
+        .limit(1)
+        .get();
 
-    console.log('Total de linguagens encontradas:', linguagensTotais.length);
-
-    // Se quiser permitir linguagens repetidas, mantenha esse array como está:
-    const linguagensUsar = linguagensTotais;
-
-    // Buscar os dados das linguagens no Firestore
-    const langRefs = linguagensUsar.map((l) =>
-      this.db.collection('linguagens').doc(l.uid)
-    );
-    const langSnaps = await this.db.getAll(...langRefs);
-
-    const resultado = linguagensUsar.map((entry) => {
-      const langSnap = langSnaps.find((s) => s.id === entry.uid);
-      const langData = langSnap?.data();
-
-      if (!langData) {
-        console.warn(`Linguagem com UID ${entry.uid} não encontrada no Firestore.`);
+      if (q.empty) {
+        console.warn(`Linguagem com sigla ${entry.sigla} não encontrada no Firestore.`);
         return null;
       }
 
+      const langDoc = q.docs[0];
+      const langData = langDoc.data();
+
       return {
-        uid: entry.uid,
+        uid: langDoc.id,
         linguagem: {
           nome: langData.nome || null,
           cor: langData.cor || null,
@@ -62,7 +51,8 @@ export class JornadasService {
       };
     });
 
-    return resultado.filter(Boolean);
+    const resultados = await Promise.all(langDocsPromises);
+    return resultados.filter(Boolean);
   }
 
   async adicionarJornada(jornada: { titulo: string; detalhes: string }) {
@@ -76,14 +66,6 @@ export class JornadasService {
     });
 
     const novoId = maxId + 1;
-
-    /*
-    await jornadasRef.doc(novoId.toString()).set({
-      id: novoId,
-      titulo: jornada.titulo,
-      detalhes: jornada.detalhes,
-    });
-    */
 
     return novoId;
   }

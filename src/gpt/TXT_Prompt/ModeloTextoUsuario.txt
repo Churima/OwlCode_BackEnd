@@ -1,0 +1,123 @@
+Olá! Gostaria de compartilhar um pouco sobre minha situação atual e minhas expectativas em relação aos meus estudos de programação.
+
+Tenho interesse em aprender [INSERIR LINGUAGEM DE PROGRAMAÇÃO DESEJADA] e gostaria que meu plano de estudos fosse focado nessa linguagem.
+
+Atualmente, sinto que minhas maiores dificuldades são: [INSERIR RESPOSTAS SOBRE DIFICULDADE — pode ser uma ou mais, separadas por vírgulas].
+
+Em relação à minha disponibilidade, consigo dedicar aproximadamente [INSERIR RESPOSTA SOBRE DISPONIBILIDADE SEMANAL] por semana aos estudos.
+
+Sobre meus estilos de aprendizagem, me identifico com: [INSERIR UMA OU MAIS RESPOSTAS SOBRE ESTILOS DE APRENDIZAGEM, separadas por vírgulas], pois acredito que esses formatos me ajudam a absorver melhor o conteúdo.
+
+Minha experiência específica com a linguagem é de [INSERIR RESPOSTA SOBRE EXPERIÊNCIA NA LINGUAGEM].
+
+Falando sobre meu conhecimento em lógica de programação, atualmente me sinto confortável com: [INSERIR UMA OU MAIS RESPOSTAS SOBRE CONHECIMENTO EM LÓGICA, separadas por vírgulas].
+
+Tenho como meta de projeto ou desafio pessoal: [INSERIR RESPOSTA SOBRE META DE PROJETO/DESAFIO].
+
+De forma geral, considero que meu nível de programação é [INSERIR RESPOSTA SOBRE NÍVEL GERAL DE PROGRAMAÇÃO].
+
+Com a minha jornada de aprendizado, o que desejo alcançar é: [INSERIR UMA OU MAIS RESPOSTAS SOBRE OBJETIVO FINAL, separadas por vírgulas].
+
+Se for relevante, gostaria também de acrescentar: [INSERIR COMPLEMENTO OPCIONAL DO USUÁRIO — texto livre, se preenchido].
+
+Gostaria que, a partir dessas informações, fosse elaborado um roadmap que me ajudasse a evoluir de forma prática e organizada, respeitando minhas preferências, dificuldades e objetivos.
+
+
+ Categorias e exemplos de respostas:
+Dificuldades (usuário pode selecionar várias):
+
+Entender a sintaxe da linguagem
+
+Aplicar lógica de programação
+
+Resolver exercícios sozinho(a)
+
+Sair do básico
+
+Organização dos estudos
+
+Lidar com erros no código
+
+Falta de motivação
+
+Disponibilidade semanal:
+
+Menos de 3 horas
+
+Entre 3 e 6 horas
+
+Entre 6 e 10 horas
+
+Mais de 10 horas
+
+Estilos de aprendizagem (usuário pode selecionar várias):
+
+Aulas em vídeo
+
+Leitura e escrita
+
+Projetos práticos
+
+Desafios e exercícios
+
+Acompanhamento com feedback
+
+Experiência na linguagem-alvo:
+
+Nunca tive contato
+
+Já vi o básico
+
+Já fiz pequenos projetos
+
+Já trabalhei com ela
+
+Conhecimento em lógica de programação (usuário pode selecionar várias):
+
+Sequência, condições e repetições
+
+Funções e escopos
+
+Estruturas de dados (arrays, listas, etc.)
+
+Algoritmos (ordenar, buscar, etc.)
+
+Programação orientada a objetos
+
+Programação funcional
+
+Meta de projeto ou desafio pessoal:
+
+Criar um portfólio
+
+Passar em um processo seletivo
+
+Desenvolver um projeto pessoal específico
+
+Mudar de carreira
+
+Contribuir com código aberto
+
+Nível geral de programação:
+
+Iniciante
+
+Intermediário
+
+Avançado
+
+Objetivo final com a jornada (usuário pode selecionar várias):
+
+Conseguir um estágio
+
+Trabalhar como dev júnior
+
+Me sentir confiante para construir projetos sozinho
+
+Participar de bootcamps ou cursos avançados
+
+Me aprofundar na linguagem
+
+Complemento opcional:
+
+Campo de texto livre (opcional)
