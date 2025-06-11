@@ -44,17 +44,18 @@ export class GptService {
     });
   }
 
-  private async salvarJornadaBruta(jsonCompleto: any): Promise<string> {
-    const docRef = this.firestore.collection('jornada_bruta').doc();
-    await docRef.set({
-      jornada_id: docRef.id,
-      ...jsonCompleto,
-      criado_em: new Date().toISOString(),
-    });
-    return docRef.id;
-  }
+private async salvarJornadaBruta(jsonCompleto: any, userId: string): Promise<string> {
+  const docRef = this.firestore.collection('jornada_bruta').doc();
+  await docRef.set({
+    jornada_id: docRef.id,
+    user_id: userId, // <- salvar no Firestore
+    ...jsonCompleto,
+    criado_em: new Date().toISOString(),
+  });
+  return docRef.id;
+}
 
-  async perguntar(pergunta: string): Promise<{ status: string; jornadaId: string }> {
+  async perguntar(pergunta: string, userId: string): Promise<{ status: string; jornadaId: string }> {
     const completion = await this.openai.chat.completions.create({
       model: 'gpt-4-turbo',
       messages: [
@@ -73,7 +74,7 @@ export class GptService {
     const jsonCompleto = JSON.parse(limpa);
     this.validarEstrutura(jsonCompleto);
 
-    const jornadaId = await this.salvarJornadaBruta(jsonCompleto);
+    const jornadaId = await this.salvarJornadaBruta(jsonCompleto, userId);
     return { status: 'ok', jornadaId };
   }
 }
