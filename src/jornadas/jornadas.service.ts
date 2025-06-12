@@ -6,53 +6,51 @@ export class JornadasService {
   private db = admin.firestore();
 
   async getJornadasByUserId(userUid: string) {
-    const q = this.db.collection('jornada_bruta').where('user_id', '==', userUid);
-    const snap = await q.get();
+  const q = this.db.collection('jornada_bruta').where('user_id', '==', userUid);
+  const snap = await q.get();
 
-    if (snap.empty) {
-      throw new NotFoundException('Nenhuma jornada encontrada para este usuário');
-    }
+  if (snap.empty) {
+    throw new NotFoundException('Nenhuma jornada encontrada para este usuário');
+  }
 
-    const linguagensTotais: { sigla: string; progresso_percent: number }[] = [];
+  const jornadaDocs = snap.docs;
 
-    for (const doc of snap.docs) {
+  const resultados = await Promise.all(
+    jornadaDocs.map(async (doc) => {
       const data = doc.data();
       const sigla = data.linguagem;
-      linguagensTotais.push({
-        sigla,
-        progresso_percent: 0,
-      });
-    }
+      const jornadaId = doc.id;
 
-    const langDocsPromises = linguagensTotais.map(async (entry) => {
-      const q = await this.db
+      // Busca a linguagem pela sigla
+      const langSnap = await this.db
         .collection('linguagens')
-        .where('sigla', '==', entry.sigla)
+        .where('sigla', '==', sigla)
         .limit(1)
         .get();
 
-      if (q.empty) {
-        console.warn(`Linguagem com sigla ${entry.sigla} não encontrada no Firestore.`);
+      if (langSnap.empty) {
+        console.warn(`Linguagem com sigla ${sigla} não encontrada no Firestore.`);
         return null;
       }
 
-      const langDoc = q.docs[0];
+      const langDoc = langSnap.docs[0];
       const langData = langDoc.data();
 
       return {
-        uid: langDoc.id,
+        uid: jornadaId, // <- agora é o UID da jornada
+        uid_linguagem: langDoc.id, // <- novo campo
         linguagem: {
           nome: langData.nome || null,
           cor: langData.cor || null,
           url: langData.url || null,
         },
-        progresso_percent: entry.progresso_percent,
+        progresso_percent: 0,
       };
-    });
+    })
+  );
 
-    const resultados = await Promise.all(langDocsPromises);
-    return resultados.filter(Boolean);
-  }
+  return resultados.filter(Boolean);
+}
 
   async marcarTopicoComoConcluido(userId: string, jornadaId: string, moduloId: number, topicoId: number) {
   const jornadaRef = this.db.collection('jornada_bruta').doc(jornadaId);
