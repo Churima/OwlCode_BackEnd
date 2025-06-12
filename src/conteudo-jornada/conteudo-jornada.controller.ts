@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
 import { ConteudoJornadaService } from './conteudo-jornada.service';
 
@@ -7,9 +7,9 @@ export class ConteudoJornadaController {
   constructor(private readonly conteudoJornadaService: ConteudoJornadaService) {}
 
   @UseGuards(FirebaseAuthGuard)
-  @Get()
-  async getConteudoJornada(@Req() req) {
-    const userId = req.user.uid;
-    return this.conteudoJornadaService.getConteudoJornada(userId);
+  @Get(':jornada_id')
+  async getConteudoPorId(@Param('jornada_id') jornadaId: string, @Req() req) {
+    const userUid = req.user.uid;
+    return this.conteudoJornadaService.getConteudoJornadaPorId(userUid, jornadaId);
   }
 }

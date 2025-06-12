@@ -5,25 +5,25 @@ import admin from '../firebase/firebase-admin';
 export class ConteudoJornadaService {
   private db = admin.firestore();
 
-  async getConteudoJornada(userUid: string) {
-  // 1. Buscar jornada_bruta (dados da IA com resposta completa)
-  const snap = await this.db
-    .collection('jornada_bruta')
-    .where('user_id', '==', userUid)
-    .limit(1)
-    .get();
+  async getConteudoJornadaPorId(userUid: string, jornadaId: string) {
+  const jornadaRef = this.db.collection('jornada_bruta').doc(jornadaId);
+  const jornadaSnap = await jornadaRef.get();
 
-  if (snap.empty) {
-    throw new NotFoundException('Nenhuma jornada encontrada para este usuário');
+  if (!jornadaSnap.exists) {
+    throw new NotFoundException('Jornada não encontrada');
   }
 
-  const jornadaDoc = snap.docs[0];
-  const jornadaData = jornadaDoc.data();
+  const jornadaData = jornadaSnap.data() as FirebaseFirestore.DocumentData;
+
+  // Valida se pertence ao usuário autenticado
+  if (jornadaData.user_id !== userUid) {
+    throw new NotFoundException('Jornada não pertence ao usuário');
+  }
 
   const linguagemSigla = jornadaData.linguagem;
   const resposta = jornadaData.resposta;
 
-  // 2. Buscar dados da linguagem correspondente
+  // Busca os dados da linguagem
   const linguagemSnap = await this.db
     .collection('linguagens')
     .where('sigla', '==', linguagemSigla)
@@ -37,8 +37,7 @@ export class ConteudoJornadaService {
   const linguagemDoc = linguagemSnap.docs[0];
   const linguagemData = linguagemDoc.data();
 
-  // 3. Transformar os módulos e tópicos no formato esperado pelo frontend
-  const roadmap = resposta.map((modulo: any, moduloIndex: number) => ({
+  const roadmap = resposta.map((modulo: any) => ({
     uid: `roadmap-${modulo.modulo_id}`,
     title: modulo.modulo_titulo,
     concluido: modulo.topicos.every((t: any) => t.finalizado),
@@ -65,7 +64,7 @@ export class ConteudoJornadaService {
         nome: linguagemData.nome || null,
         url: linguagemData.url || null
       },
-      progresso_percent: 0 // pode ajustar se quiser calcular progresso real
+      progresso_percent: 0 // calcular depois se quiser
     },
     roadmap
   };
