@@ -58,11 +58,13 @@ export class ConteudoJornadaService {
   return {
     uid: jornadaId, // <- UID da jornada
     uid_linguagem: linguagemDoc.id, // <- opcional, se quiser seguir o mesmo padrão do outro endpoint
-    linguagem: {
-      nome: linguagemData.nome || null,
-      cor: linguagemData.cor || null,
-      url: linguagemData.url || null,
-      sigla: linguagemSigla // <- adiciona a sigla
+    jornada: {
+      linguagem: {
+        nome: linguagemData.nome || null,
+        cor: linguagemData.cor || null,
+        url: linguagemData.url || null,
+        sigla: linguagemSigla // <- adiciona a sigla
+      },
     },
     progresso_percent: 0,
     roadmap
