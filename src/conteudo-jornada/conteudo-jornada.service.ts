@@ -15,7 +15,6 @@ export class ConteudoJornadaService {
 
   const jornadaData = jornadaSnap.data() as FirebaseFirestore.DocumentData;
 
-  // Valida se pertence ao usuário autenticado
   if (jornadaData.user_id !== userUid) {
     throw new NotFoundException('Jornada não pertence ao usuário');
   }
@@ -23,7 +22,6 @@ export class ConteudoJornadaService {
   const linguagemSigla = jornadaData.linguagem;
   const resposta = jornadaData.resposta;
 
-  // Busca os dados da linguagem
   const linguagemSnap = await this.db
     .collection('linguagens')
     .where('sigla', '==', linguagemSigla)
@@ -57,15 +55,15 @@ export class ConteudoJornadaService {
   }));
 
   return {
-    uid: linguagemDoc.id,
-    jornada: {
-      linguagem: {
-        cor: linguagemData.cor || null,
-        nome: linguagemData.nome || null,
-        url: linguagemData.url || null
-      },
-      progresso_percent: 0 // calcular depois se quiser
+    uid: jornadaId, // <- UID da jornada
+    uid_linguagem: linguagemDoc.id, // <- opcional, se quiser seguir o mesmo padrão do outro endpoint
+    linguagem: {
+      nome: linguagemData.nome || null,
+      cor: linguagemData.cor || null,
+      url: linguagemData.url || null,
+      sigla: linguagemSigla // <- adiciona a sigla
     },
+    progresso_percent: 0,
     roadmap
   };
 }
