@@ -36,23 +36,24 @@ export class ConteudoJornadaService {
   const linguagemData = linguagemDoc.data();
 
   const roadmap = resposta.map((modulo: any) => ({
-    uid: `roadmap-${modulo.modulo_id}`,
-    title: modulo.modulo_titulo,
-    concluido: modulo.topicos.every((t: any) => t.finalizado),
-    subtopicos: modulo.topicos.map((topico: any) => ({
-      title: topico.topico_titulo,
-      concluido: topico.finalizado,
-      conteudo: {
-        topico: topico.topico_subtitulo,
-        detalhes: topico.topico_detalhes,
-        anexos: topico.anexos || [],
-        exemplos: (topico.exemplos || []).map((ex: any) => ({
-          titulo: ex.titulo_exemplo,
-          codigo: ex.codigo
-        }))
-      }
-    }))
-  }));
+  uid: modulo.modulo_id,
+  title: modulo.modulo_titulo,
+  concluido: modulo.topicos.every((t: any) => t.finalizado),
+  subtopicos: modulo.topicos.map((topico: any) => ({
+    uid: topico.topico_id, // <-- novo campo adicionado
+    title: topico.topico_titulo,
+    concluido: topico.finalizado,
+    conteudo: {
+      topico: topico.topico_subtitulo,
+      detalhes: topico.topico_detalhes,
+      anexos: topico.anexos || [],
+      exemplos: (topico.exemplos || []).map((ex: any) => ({
+        titulo: ex.titulo_exemplo,
+        codigo: ex.codigo
+      }))
+    }
+  }))
+}));
 
   return {
     uid: jornadaId, // <- UID da jornada

@@ -23,7 +23,7 @@ Se for relevante, gostaria também de acrescentar: [INSERIR COMPLEMENTO OPCIONAL
 Gostaria que, a partir dessas informações, fosse elaborado um roadmap que me ajudasse a evoluir de forma prática e organizada, respeitando minhas preferências, dificuldades e objetivos.
 
 
- Categorias e exemplos de respostas:
+Categorias e exemplos de respostas:
 Dificuldades (usuário pode selecionar várias):
 
 Entender a sintaxe da linguagem
