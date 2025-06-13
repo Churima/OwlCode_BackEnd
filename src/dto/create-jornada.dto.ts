@@ -2,7 +2,7 @@ export class CreateJornadaDto {
   linguagem: string;
   dificuldades: string[];
   disponibilidade: string;
-  estilos_aprendizado: string[];
+  estilos_aprendizagem: string[];
   experiencia_linguagem: string;
   conhecimento_logica: string[];
   meta_pessoal: string[];

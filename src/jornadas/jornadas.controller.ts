@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Req, UseGuards, Post } from '@nestjs/common';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
 import { JornadasService } from './jornadas.service';
 
@@ -41,4 +41,25 @@ async marcarModuloComoConcluido(
     Number(body.modulo_id)
   );
 }
+
+@UseGuards(FirebaseAuthGuard)
+  @Post('criarJornada')
+  async criarJornada(
+    @Req() req,
+    @Body() body: {
+      linguagem: string,
+      dificuldades: string[],
+      disponibilidade: string,
+      estilos_aprendizagem: string[],
+      experiencia_linguagem: string,
+      conhecimento_logica: string[],
+      meta_pessoal: string[],
+      nivel_programacao: string,
+      objetivo_final: string,
+      complemento?: string
+    }
+  ) {
+    const userId = req.user.uid;
+    return this.jornadasService.criarJornada(userId, body);
+  }
 }

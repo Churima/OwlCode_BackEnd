@@ -194,18 +194,63 @@ export class JornadasService {
     return novoId;
   }
 
+  async criarJornada(userId: string, data: CreateJornadaDto) {
+  const textoFormatado = this.montarTextoJornada(data);
+
+  // Aqui seria o ponto de integração com a OpenAI, simularemos por enquanto
+  const respostaGerada = {
+    linguagem: data.linguagem.toLowerCase(),
+    resposta: [
+      {
+        modulo_id: 1,
+        modulo_titulo: 'Introdução à Programação',
+        topicos: [
+          {
+            topico_id: 1,
+            topico_titulo: 'Variáveis e Tipos',
+            topico_subtitulo: 'Conceitos iniciais sobre variáveis',
+            topico_detalhes: 'Entenda o que são variáveis, tipos primitivos e como utilizá-los.',
+            exemplos: [
+              {
+                titulo_exemplo: 'Exemplo em código',
+                codigo: `let idade = 25;\nconsole.log(idade);`
+              }
+            ],
+            finalizado: false
+          }
+        ]
+      }
+    ]
+  };
+
+  const jornadaRef = await this.db.collection('jornada_bruta').add({
+    user_id: userId,
+    linguagem: respostaGerada.linguagem,
+    resposta: respostaGerada.resposta,
+    progresso_percent: 0,
+    criado_em: admin.firestore.FieldValue.serverTimestamp()
+  });
+
+  return {
+    sucesso: true,
+    jornada_id: jornadaRef.id,
+    mensagem: 'Jornada criada com sucesso',
+    texto_gerado: textoFormatado // opcional, para debug
+  };
+}
+
   montarTextoJornada(data: CreateJornadaDto): string {
     return `Olá! Gostaria de compartilhar um pouco sobre minha situação atual e minhas expectativas em relação aos meus estudos de programação.
-Tenho interesse em aprender ${data.linguagem} e gostaria que meu plano de estudos fosse focado nessa linguagem.
-Atualmente, sinto que minhas maiores dificuldades são: ${data.dificuldades.join(', ')}.
-Em relação à minha disponibilidade, consigo dedicar aproximadamente ${data.disponibilidade} por semana aos estudos.
-Sobre meus estilos de aprendizagem, me identifico com: ${data.estilos_aprendizado.join(', ')}, pois acredito que esses formatos me ajudam a absorver melhor o conteúdo.
-Minha experiência específica com a linguagem é de: ${data.experiencia_linguagem}.
-Falando sobre meu conhecimento em lógica de programação, atualmente me sinto confortável com: ${data.conhecimento_logica.join(', ')}.
-Tenho como meta de projeto ou desafio pessoal: ${data.meta_pessoal.join(', ')}.
-Meu nível geral de programação é: ${data.nivel_programacao}.
-Com a minha jornada de aprendizado, o que desejo alcançar é: ${data.objetivo_final}.
-${data.complemento ? 'Gostaria de acrescentar: ' + data.complemento + '.' : ''}
-Gostaria que, a partir dessas informações, fosse elaborado um roadmap que me ajudasse a evoluir de forma prática e organizada, respeitando minhas preferências, dificuldades e objetivos.`;
+        Tenho interesse em aprender ${data.linguagem} e gostaria que meu plano de estudos fosse focado nessa linguagem.
+        Atualmente, sinto que minhas maiores dificuldades são: ${data.dificuldades.join(', ')}.
+        Em relação à minha disponibilidade, consigo dedicar aproximadamente ${data.disponibilidade} por semana aos estudos.
+        Sobre meus estilos de aprendizagem, me identifico com: ${data.estilos_aprendizagem.join(', ')}, pois acredito que esses formatos me ajudam a absorver melhor o conteúdo.
+        Minha experiência específica com a linguagem é de: ${data.experiencia_linguagem}.
+        Falando sobre meu conhecimento em lógica de programação, atualmente me sinto confortável com: ${data.conhecimento_logica.join(', ')}.
+        Tenho como meta de projeto ou desafio pessoal: ${data.meta_pessoal.join(', ')}.
+        Meu nível geral de programação é: ${data.nivel_programacao}.
+        Com a minha jornada de aprendizado, o que desejo alcançar é: ${data.objetivo_final}.
+        ${data.complemento ? 'Gostaria de acrescentar: ' + data.complemento + '.' : ''}
+        Gostaria que, a partir dessas informações, fosse elaborado um roadmap que me ajudasse a evoluir de forma prática e organizada, respeitando minhas preferências, dificuldades e objetivos.`;
   }
 }
