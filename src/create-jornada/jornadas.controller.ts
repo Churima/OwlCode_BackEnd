@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateJornadaDto } from '../dto/create-jornada.dto';
-import { JornadasService } from './jornadas.service';
+import { JornadasService } from '../jornadas/jornadas.service';
 
 @Controller()
 export class JornadasController {
