@@ -65,7 +65,7 @@ export class ConteudoJornadaService {
         url: linguagemData.url || null,
         sigla: linguagemSigla // <- adiciona a sigla
       },
-      progresso_percent: 0,
+      progresso_percent: jornadaData.progresso_percent || 0,
     },
     roadmap
   };

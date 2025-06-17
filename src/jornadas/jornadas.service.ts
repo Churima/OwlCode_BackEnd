@@ -44,7 +44,7 @@ export class JornadasService {
             cor: langData.cor || null,
             url: langData.url || null,
           },
-          progresso_percent: 0,
+          progresso_percent: data.progresso_percent || 0,
         };
       })
     );
