@@ -8,6 +8,7 @@ import { ConteudoJornadaModule } from './conteudo-jornada/conteudo-jornada.modul
 import { ConfigModule } from '@nestjs/config';
 import { JornadaModulosModule } from './jornada-modulos/jornada-modulos.module';
 import { JornadaTopicosModule } from './jornada-topicos/jornada-topicos.module';
+import { ExercicioModule } from './exercicio/exercicio.module';
 
 @Module({
   imports: [
@@ -15,8 +16,9 @@ import { JornadaTopicosModule } from './jornada-topicos/jornada-topicos.module';
     LinguagensModule,
     JornadasModule,
     ConteudoJornadaModule,
-    JornadaModulosModule,  // <-- aqui
-    JornadaTopicosModule,  // <-- aqui
+    JornadaModulosModule,
+    JornadaTopicosModule, 
+    ExercicioModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
