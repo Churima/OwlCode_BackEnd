@@ -1,28 +1,45 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { db } from '../firebase/firebase-admin';
-import { JornadaTopicosService } from '../jornada-topicos/jornada-topicos.service';
 
 @Injectable()
 export class JornadaModulosService {
-  constructor(
-    @Inject(forwardRef(() => JornadaTopicosService))
-    private readonly jornadaTopicosService: JornadaTopicosService,
-  ) {}
-
   async adicionarModuloComTopicos(modulo: any) {
     const { ID, titulo, detalhes, topicos } = modulo;
 
-    // Salva módulo
-    await db.collection('jornada_modulos').doc(ID.toString()).set({
+    if (!ID || !titulo || !detalhes) {
+      console.warn('❌ Módulo inválido recebido:', modulo);
+      return;
+    }
+
+    const moduloRef = db.collection('jornada_modulos').doc(ID.toString());
+
+    // Grava o módulo
+    await moduloRef.set({
       id: ID,
       titulo,
       detalhes,
     });
 
-    // Salva os tópicos vinculados ao módulo
+    console.log(`✅ Módulo gravado: ${ID} - ${titulo}`);
+
+    // Grava os tópicos como subcoleção do módulo
     if (Array.isArray(topicos)) {
+      const topicosRef = moduloRef.collection('topicos');
+
       for (const topico of topicos) {
-        await this.jornadaTopicosService.adicionarTopico(ID.toString(), topico);
+        const { id, titulo, titulo2, detalhes, anexos, exemplos, finalizado } = topico;
+
+        await topicosRef.doc(id.toString()).set({
+          id,
+          titulo,
+          titulo2,
+          detalhes,
+          anexos: anexos || [],
+          exemplos: exemplos || [],
+          finalizado: finalizado ?? false,
+        });
+
+        console.log(`✅ Tópico gravado: ${id} - ${titulo}`);
       }
     }
   }

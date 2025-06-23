@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JornadaModulosModule } from './jornada-modulos/jornada-modulos.module';
 import { JornadaTopicosModule } from './jornada-topicos/jornada-topicos.module';
 import { ExercicioModule } from './exercicio/exercicio.module';
+import { GptDuvidasModule } from './gpt-duvidas/gpt-duvidas.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ExercicioModule } from './exercicio/exercicio.module';
     JornadaModulosModule,
     JornadaTopicosModule, 
     ExercicioModule,
+    GptDuvidasModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
