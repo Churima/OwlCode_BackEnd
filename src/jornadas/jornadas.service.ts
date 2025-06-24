@@ -209,7 +209,11 @@ export class JornadasService {
     }
   );
 
-  const jornadaRef = await this.db.collection('jornada_bruta').add({
+  const jornadaRef = this.db.collection('jornada_bruta').doc(); // cria doc com ID manual
+const jornadaId = jornadaRef.id;
+
+  await jornadaRef.set({
+    jornada_id: jornadaId, // salva o ID no próprio documento
     user_id: userId,
     linguagem: respostaGerada.linguagem,
     resposta: respostaGerada.resposta,
