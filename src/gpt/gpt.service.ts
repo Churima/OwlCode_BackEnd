@@ -55,26 +55,25 @@ private async salvarJornadaBruta(jsonCompleto: any, userId: string): Promise<str
   return docRef.id;
 }
 
-  async perguntar(pergunta: string, userId: string): Promise<{ status: string; jornadaId: string }> {
-    const completion = await this.openai.chat.completions.create({
-      model: 'gpt-4-turbo',
-      messages: [
-        ...this.baseMessages,
-        { role: 'user', content: pergunta },
-      ],
-      temperature: 0,
-      top_p: 1,
-    });
+  async perguntar(pergunta: string, userId: string): Promise<any> {
+  const completion = await this.openai.chat.completions.create({
+    model: 'gpt-4-turbo',
+    messages: [
+      ...this.baseMessages,
+      { role: 'user', content: pergunta },
+    ],
+    temperature: 0,
+    top_p: 1,
+  });
 
-    const raw = completion.choices?.[0]?.message?.content ?? '';
-    const limpa = this.limparResposta(raw);
+  const raw = completion.choices?.[0]?.message?.content ?? '';
+  const limpa = this.limparResposta(raw);
 
-    this.logger.debug('Resposta da IA limpa:', limpa);
+  this.logger.debug('Resposta da IA limpa:', limpa);
 
-    const jsonCompleto = JSON.parse(limpa);
-    this.validarEstrutura(jsonCompleto);
+  const jsonCompleto = JSON.parse(limpa);
+  this.validarEstrutura(jsonCompleto);
 
-    const jornadaId = await this.salvarJornadaBruta(jsonCompleto, userId);
-    return { status: 'ok', jornadaId };
-  }
+  return jsonCompleto; // 👈 retornando o conteúdo esperado
+}
 }

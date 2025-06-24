@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import admin from '../firebase/firebase-admin';
 import { CreateJornadaDto } from '../dto/create-jornada.dto';
+import axios from 'axios';
 
 @Injectable()
 export class JornadasService {
@@ -194,34 +195,19 @@ export class JornadasService {
     return novoId;
   }
 
-  async criarJornada(userId: string, data: CreateJornadaDto) {
+  async criarJornada(userId: string, data: CreateJornadaDto, token: string) {
   const textoFormatado = this.montarTextoJornada(data);
 
-  // Aqui seria o ponto de integração com a OpenAI, simularemos por enquanto
-  const respostaGerada = {
-    linguagem: data.linguagem.toLowerCase(),
-    resposta: [
-      {
-        modulo_id: 1,
-        modulo_titulo: 'Introdução à Programação',
-        topicos: [
-          {
-            topico_id: 1,
-            topico_titulo: 'Variáveis e Tipos',
-            topico_subtitulo: 'Conceitos iniciais sobre variáveis',
-            topico_detalhes: 'Entenda o que são variáveis, tipos primitivos e como utilizá-los.',
-            exemplos: [
-              {
-                titulo_exemplo: 'Exemplo em código',
-                codigo: `let idade = 25;\nconsole.log(idade);`
-              }
-            ],
-            finalizado: false
-          }
-        ]
+  // Enviar texto para /gpt/perguntar (usando axios com cookies)
+  const { data: respostaGerada } = await axios.post(
+    'http://localhost:3000/gpt/perguntar',
+    { pergunta: textoFormatado },
+    {
+      headers: {
+        Cookie: `auth_token=${token}` 
       }
-    ]
-  };
+    }
+  );
 
   const jornadaRef = await this.db.collection('jornada_bruta').add({
     user_id: userId,

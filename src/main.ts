@@ -2,6 +2,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
+import * as cookieParser from 'cookie-parser';
 
 dotenv.config(); // Garante que as variáveis de ambiente sejam carregadas cedo.
 
@@ -13,6 +14,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+  app.use(cookieParser());
 
   await app.listen(process.env.PORT ?? 3000);
 }
