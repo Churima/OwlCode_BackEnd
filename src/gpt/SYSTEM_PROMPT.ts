@@ -27,7 +27,7 @@ Cada tópico deve conter os seguintes campos:
   - { "tipo": "documentacao" | "video", "url": "https://..." }
 - "exemplos": array de objetos, cada um com:
   - "titulo_exemplo": o que este código representa ou demonstra
-  - "codigo": string com o código de exemplo
+  - "codigo": string com o código de exemplo **com quebras de linha explícitas usando \\n**
 
 Restrições:
 - Gere **exatamente 5 módulos**
@@ -63,7 +63,7 @@ Exemplo resumido da estrutura esperada:
             },
             {
               "titulo_exemplo": "Função simples",
-              "codigo": "function soma(a, b) { return a + b; }"
+              "codigo": "function soma(a, b) {\\n  return a + b;\\n}"
             }
           ]
         }
