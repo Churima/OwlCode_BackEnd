@@ -225,7 +225,8 @@ const jornadaId = jornadaRef.id;
     sucesso: true,
     jornada_id: jornadaRef.id,
     mensagem: 'Jornada criada com sucesso',
-    texto_gerado: textoFormatado // opcional, para debug
+    texto_gerado: textoFormatado, 
+    tokens_usados: respostaGerada.tokens_usados ?? null
   };
 }
 

@@ -24,18 +24,25 @@ Cada tópico deve conter os seguintes campos:
 - "topico_subtitulo": nome secundário ou descrição curta
 - "topico_detalhes": explicação detalhada do conteúdo
 - "anexos": array com links úteis no formato:
-  - { "tipo": "documentacao" | "video", "url": "https://..." }
+  { "tipo": "documentacao" | "video", "url": "links para videos no youtube" }
 - "exemplos": array de objetos, cada um com:
-  - "titulo_exemplo": o que este código representa ou demonstra
-  - "codigo": string com o código de exemplo **com quebras de linha explícitas usando \\n**
+- "titulo_exemplo": o que este código representa ou demonstra
+- "codigo": string com o código de exemplo **com quebras de linha explícitas usando \\n**
 
 Restrições:
-- Gere **exatamente 5 módulos**
-- Cada módulo deve conter **no mínimo 3 tópicos**
-- Os IDs de tópicos devem ser únicos e sequenciais ao longo de todos os módulos
-- Gere URLs reais e plausíveis (por exemplo, MDN, YouTube, W3Schools etc.)
 - **Nunca quebre o JSON**
 - **A resposta final deve ser apenas o JSON solicitado**
+- Gere **exatamente 5 módulos**
+- Cada módulo deve conter **no mínimo 3 tópicos**
+- Os IDs de tópicos devem ser únicos e sequenciais ao longo de todos os módulos.
+- Traga URLS reais do youtube seguindo as liberações e não fuja do assunto programação
+- Videos em Portugues ou ingles
+
+Liberações:
+- Os videos podem ser assuntos proximos ao tópico
+- Pode repetir o link do video caso aborde um assunto parecido.
+- Não precisa ser preciso nas buscas por videos, desde que siga a ideia doque é preciso retornar.
+- O video não precisa ser literalmente sobre a linguagem, caso facilite pode ser sobre programação no geral. 
 
 Exemplo resumido da estrutura esperada:
 {

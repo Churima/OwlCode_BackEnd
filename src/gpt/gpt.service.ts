@@ -48,7 +48,7 @@ private async salvarJornadaBruta(jsonCompleto: any, userId: string): Promise<str
   const docRef = this.firestore.collection('jornada_bruta').doc();
   await docRef.set({
     jornada_id: docRef.id,
-    user_id: userId, // <- salvar no Firestore
+    user_id: userId,
     ...jsonCompleto,
     criado_em: new Date().toISOString(),
   });
@@ -56,24 +56,39 @@ private async salvarJornadaBruta(jsonCompleto: any, userId: string): Promise<str
 }
 
   async perguntar(pergunta: string, userId: string): Promise<any> {
-  const completion = await this.openai.chat.completions.create({
-    model: 'gpt-4-turbo',
-    messages: [
-      ...this.baseMessages,
-      { role: 'user', content: pergunta },
-    ],
-    temperature: 0,
-    top_p: 1,
-  });
+  try {
+    const completion = await this.openai.chat.completions.create({
+      model: 'gpt-4-turbo',
+      messages: [
+        ...this.baseMessages,
+        { role: 'user', content: pergunta }
+      ],
+      temperature: 0,
+      top_p: 1,
+    });
 
-  const raw = completion.choices?.[0]?.message?.content ?? '';
-  const limpa = this.limparResposta(raw);
+    const raw = completion.choices?.[0]?.message?.content ?? '';
+    const limpa = this.limparResposta(raw);
 
-  this.logger.debug('Resposta da IA limpa:', limpa);
+    this.logger.debug('Resposta da IA limpa:', limpa);
 
-  const jsonCompleto = JSON.parse(limpa);
-  this.validarEstrutura(jsonCompleto);
+    const jsonCompleto = JSON.parse(limpa);
+    this.validarEstrutura(jsonCompleto);
 
-  return jsonCompleto; // 👈 retornando o conteúdo esperado
-}
+    const usage = completion.usage;
+    this.logger.log(`Tokens usados - Total: ${usage?.total_tokens}, Prompt: ${usage?.prompt_tokens}, Completion: ${usage?.completion_tokens}`);
+
+    return {
+      ...jsonCompleto,
+      tokens_usados: {
+        total: usage?.total_tokens,
+        prompt: usage?.prompt_tokens,
+        completion: usage?.completion_tokens,
+      }
+    };
+  } catch (error) {
+    this.logger.error('Erro ao consultar a IA:', error?.message || error);
+    throw new Error('Erro ao processar resposta da IA');
+  }
+  }
 }
